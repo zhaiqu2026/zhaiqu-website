@@ -1,0 +1,255 @@
+# 宅趣 (zhaiqu.fun) 网站部署指南
+
+## 🎯 项目信息
+- **品牌名：** 宅趣
+- **域名：** zhaiqu.fun
+- **类型：** 电商展示网站
+- **创建日期：** 2026-03-04
+
+---
+
+## 📋 快速部署方案（3 种选择）
+
+### 方案 A：Vercel + Next.js Commerce（推荐）
+
+**步骤：**
+
+1. 打开 https://github.com/vercel/commerce
+
+2. 点击右上角 **"Deploy to Vercel"** 按钮
+
+3. 登录 GitHub（没有就注册一个）
+
+4. 项目名称填：`zhaiqu-store`
+
+5. 点击 **"Deploy"**
+
+6. 部署完成后，在 Vercel 后台：
+   - Settings → Domains
+   - 添加：`zhaiqu.fun` 和 `www.zhaiqu.fun`
+
+7. 去域名服务商（阿里云/腾讯云）配置 DNS：
+   ```
+   类型：A
+   主机记录：@
+   记录值：76.76.21.21
+   
+   类型：CNAME
+   主机记录：www
+   记录值：cname.vercel-dns.com
+   ```
+
+---
+
+### 方案 B：Vercel + 简单 HTML（最快，10 分钟上线）
+
+我已经帮你写好了一个简单的展示页面代码，见下方 `index.html` 文件。
+
+**部署步骤：**
+
+1. 注册 https://vercel.com
+
+2. 安装 Vercel CLI（本地）：
+   ```bash
+   npm install -g vercel
+   ```
+
+3. 在本地创建文件夹，放入 `index.html`
+
+4. 运行：
+   ```bash
+   vercel login
+   vercel --prod
+   ```
+
+5. 在 Vercel 后台绑定域名 `zhaiqu.fun`
+
+---
+
+### 方案 C：Netlify Drop（最简单，不用命令行）
+
+1. 访问 https://app.netlify.com/drop
+
+2. 把 `index.html` 文件拖进去
+
+3. 自动部署完成
+
+4. 在 Netlify 后台绑定域名
+
+---
+
+## 📄 网站代码
+
+### index.html（简单展示页）
+
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宅趣 - 发现宅家乐趣</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* 头部 */
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 60px 0; text-align: center; }
+        header h1 { font-size: 3em; margin-bottom: 10px; }
+        header p { font-size: 1.2em; opacity: 0.9; }
+        
+        /* 导航 */
+        nav { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        nav ul { display: flex; list-style: none; justify-content: center; padding: 20px 0; }
+        nav li { margin: 0 20px; }
+        nav a { text-decoration: none; color: #333; font-weight: 500; transition: color 0.3s; }
+        nav a:hover { color: #667eea; }
+        
+        /* 商品展示 */
+        .products { padding: 60px 0; background: #f8f9fa; }
+        .products h2 { text-align: center; margin-bottom: 40px; font-size: 2em; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .product-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-image { width: 100%; height: 250px; background: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #999; font-size: 1.2em; }
+        .product-info { padding: 20px; }
+        .product-title { font-size: 1.3em; margin-bottom: 10px; }
+        .product-desc { color: #666; margin-bottom: 15px; }
+        .product-price { color: #667eea; font-size: 1.5em; font-weight: bold; }
+        
+        /* 关于 */
+        .about { padding: 60px 0; }
+        .about h2 { text-align: center; margin-bottom: 30px; font-size: 2em; }
+        .about-content { max-width: 800px; margin: 0 auto; text-align: center; }
+        
+        /* 联系 */
+        .contact { padding: 60px 0; background: #333; color: white; text-align: center; }
+        .contact h2 { margin-bottom: 30px; font-size: 2em; }
+        .contact-info { font-size: 1.2em; }
+        .contact-info p { margin: 10px 0; }
+        
+        /* 页脚 */
+        footer { background: #222; color: #999; text-align: center; padding: 20px 0; }
+        
+        /* 按钮 */
+        .btn { display: inline-block; background: #667eea; color: white; padding: 12px 30px; border-radius: 5px; text-decoration: none; transition: background 0.3s; }
+        .btn:hover { background: #5568d3; }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2em; }
+            nav ul { flex-direction: column; align-items: center; }
+            nav li { margin: 10px 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header>
+        <div class="container">
+            <h1>🏠 宅趣</h1>
+            <p>发现宅家的无限乐趣</p>
+        </div>
+    </header>
+    
+    <!-- 导航 -->
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#home">首页</a></li>
+                <li><a href="#products">商品</a></li>
+                <li><a href="#about">关于</a></li>
+                <li><a href="#contact">联系</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 商品展示 -->
+    <section id="products" class="products">
+        <div class="container">
+            <h2>✨ 精选商品</h2>
+            <div class="product-grid">
+                <!-- 商品 1 -->
+                <div class="product-card">
+                    <div class="product-image">商品图片 1</div>
+                    <div class="product-info">
+                        <h3 class="product-title">商品名称 1</h3>
+                        <p class="product-desc">这里是商品的详细描述，介绍商品的特点和优势。</p>
+                        <div class="product-price">¥99</div>
+                    </div>
+                </div>
+                <!-- 商品 2 -->
+                <div class="product-card">
+                    <div class="product-image">商品图片 2</div>
+                    <div class="product-info">
+                        <h3 class="product-title">商品名称 2</h3>
+                        <p class="product-desc">这里是商品的详细描述，介绍商品的特点和优势。</p>
+                        <div class="product-price">¥199</div>
+                    </div>
+                </div>
+                <!-- 商品 3 -->
+                <div class="product-card">
+                    <div class="product-image">商品图片 3</div>
+                    <div class="product-info">
+                        <h3 class="product-title">商品名称 3</h3>
+                        <p class="product-desc">这里是商品的详细描述，介绍商品的特点和优势。</p>
+                        <div class="product-price">¥299</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 关于 -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>关于宅趣</h2>
+            <div class="about-content">
+                <p>宅趣是一个专注于为宅家生活带来乐趣的品牌。我们相信，即使待在家里，也能发现生活的美好。</p>
+                <br>
+                <p>我们精心挑选各种有趣、实用的商品，让你的宅家时光更加精彩！</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 联系 -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>联系我们</h2>
+            <div class="contact-info">
+                <p>📱 微信：你的微信号</p>
+                <p>📞 电话：你的电话号码</p>
+                <p>📧 邮箱：your@email.com</p>
+                <br>
+                <a href="#" class="btn">立即咨询</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 宅趣 zhaiqu.fun 版权所有</p>
+        </div>
+    </footer>
+</body>
+</html>
+```
+
+---
+
+## ✅ 待办清单
+
+- [ ] 选择部署方案（A/B/C）
+- [ ] 注册 GitHub/Vercel 账号
+- [ ] 部署网站
+- [ ] 配置域名 DNS
+- [ ] 替换商品图片和文字
+- [ ] 更新联系方式
+
+---
+
+## 📞 需要帮助？
+
+随时告诉我进展，遇到问题我帮你解决！
