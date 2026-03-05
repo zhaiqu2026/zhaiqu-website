@@ -3,311 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宅趣 - 家居服代工 | 阿罗裤生产 | 品牌定制</title>
+    <title>宅趣网站 - 产品展示</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
-        /* 品牌色 */
-        :root {
-            --primary: #FF6B35;  /* 橙色 - 温暖活力 */
-            --secondary: #F7F7F7; /* 米白 - 舒适干净 */
-            --accent: #4ECDC4;    /* 青色 - 创新 */
-        }
-        
-        /* 头部 */
-        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 0; text-align: center; }
-        header h1 { font-size: 2.5em; margin-bottom: 10px; }
-        header .slogan { font-size: 1.3em; opacity: 0.95; font-weight: 300; }
-        header .brand-mark { font-size: 3em; margin: 20px 0; }
-        
-        /* 导航 */
-        nav { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-        nav ul { display: flex; list-style: none; justify-content: center; padding: 15px 0; }
-        nav li { margin: 0 25px; }
-        nav a { text-decoration: none; color: #333; font-weight: 500; transition: color 0.3s; }
-        nav a:hover { color: var(--primary); }
-        
-        /* 主横幅 */
-        .hero { padding: 80px 0; text-align: center; background: var(--secondary); }
-        .hero h2 { font-size: 2.2em; margin-bottom: 20px; }
-        .hero p { font-size: 1.2em; color: #666; max-width: 700px; margin: 0 auto 30px; }
-        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-        .btn { display: inline-block; padding: 15px 35px; border-radius: 5px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: #e55a2b; transform: translateY(-2px); }
-        .btn-secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
-        .btn-secondary:hover { background: var(--primary); color: white; transform: translateY(-2px); }
-        
-        /* 业务板块 */
-        .services { padding: 80px 0; }
-        .services h2 { text-align: center; margin-bottom: 50px; font-size: 2em; }
-        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
-        .service-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: transform 0.3s; }
-        .service-card:hover { transform: translateY(-5px); }
-        .service-icon { font-size: 3em; text-align: center; padding: 30px; background: var(--secondary); }
-        .service-info { padding: 30px; }
-        .service-info h3 { font-size: 1.5em; margin-bottom: 15px; color: var(--primary); }
-        .service-info ul { list-style: none; margin-top: 15px; }
-        .service-info li { padding: 8px 0; border-bottom: 1px solid #eee; }
-        .service-info li:last-child { border-bottom: none; }
-        
-        /* 超级符号展示 */
-        .symbols { padding: 60px 0; background: var(--secondary); text-align: center; }
-        .symbols h2 { margin-bottom: 30px; font-size: 2em; }
-        .symbol-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
-        .symbol-item { text-align: center; }
-        .symbol-shape { width: 80px; height: 80px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: bold; }
-        .symbol-circle { background: #FFD93D; border-radius: 50%; color: #333; }
-        .symbol-square { background: #6BCB77; border-radius: 10px; color: white; }
-        .symbol-triangle { background: #4D96FF; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); color: white; }
-        .symbol-x { background: #FF6B6B; color: white; }
-        .symbol-item p { font-weight: 500; }
-        
-        /* 工厂展示 */
-        .factory { padding: 80px 0; }
-        .factory h2 { text-align: center; margin-bottom: 50px; font-size: 2em; }
-        .factory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .factory-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.1); }
-        .factory-img { width: 100%; height: 200px; background: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #999; font-size: 1.1em; }
-        .factory-info { padding: 20px; }
-        .factory-info h3 { font-size: 1.2em; margin-bottom: 10px; }
-        .factory-info p { color: #666; font-size: 0.95em; }
-        
-        /* 产品人格化 */
-        .characters { padding: 60px 0; background: var(--secondary); }
-        .characters h2 { text-align: center; margin-bottom: 50px; font-size: 2em; }
-        .character-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .character-card { background: white; padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 3px 15px rgba(0,0,0,0.1); }
-        .character-avatar { font-size: 4em; margin-bottom: 20px; }
-        .character-card h3 { font-size: 1.4em; margin-bottom: 10px; color: var(--primary); }
-        .character-role { color: #666; font-size: 1em; margin-bottom: 15px; }
-        .character-quote { font-style: italic; color: #888; background: #f9f9f9; padding: 15px; border-radius: 5px; }
-        
-        /* 联系我们 */
-        .contact { padding: 80px 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; }
-        .contact h2 { margin-bottom: 30px; font-size: 2em; }
-        .contact-info { font-size: 1.2em; margin-bottom: 30px; }
-        .contact-info p { margin: 10px 0; }
-        
-        /* 页脚 */
-        footer { background: #222; color: #999; text-align: center; padding: 30px 0; }
-        
-        /* 响应式 */
-        @media (max-width: 768px) {
-            header h1 { font-size: 1.8em; }
-            .hero { padding: 50px 0; }
-            .hero h2 { font-size: 1.6em; }
-            nav ul { flex-wrap: wrap; }
-            nav li { margin: 8px 15px; }
-        }
+        body { font-family: 'Microsoft YaHei', Arial, sans-serif; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .header p { opacity: 0.9; }
+        .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; padding: 40px 0; }
+        .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-image { width: 100%; height: 250px; object-fit: cover; background: #f0f0f0; }
+        .product-info { padding: 20px; }
+        .product-title { font-size: 1.2em; margin-bottom: 10px; color: #333; }
+        .product-price { color: #e74c3c; font-size: 1.3em; font-weight: bold; margin-bottom: 10px; }
+        .product-desc { color: #666; font-size: 0.9em; line-height: 1.6; }
+        .footer { text-align: center; padding: 30px; color: #666; }
+        .loading { text-align: center; padding: 60px 20px; color: #666; }
     </style>
 </head>
 <body>
-    <!-- 头部 -->
-    <header>
-        <div class="container">
-            <div class="brand-mark">🏠</div>
-            <h1>宅趣 ZHAIQU</h1>
-            <p class="slogan">宅在家里，乐趣无限</p>
-        </div>
-    </header>
+    <div class="header">
+        <h1>🏠 宅趣网站</h1>
+        <p>专业代工 · 品质保证</p>
+    </div>
     
-    <!-- 导航 -->
-    <nav>
-        <div class="container">
-            <ul>
-                <li><a href="#home">首页</a></li>
-                <li><a href="#services">代工服务</a></li>
-                <li><a href="#products">产品展示</a></li>
-                <li><a href="#factory">工厂实拍</a></li>
-                <li><a href="#contact">联系我们</a></li>
-            </ul>
-        </div>
-    </nav>
-    
-    <!-- 主横幅 -->
-    <section id="home" class="hero">
-        <div class="container">
-            <h2>专业家居服代工 | 阿罗裤生产定制</h2>
-            <p>自有品牌 + 代工服务，为您提供从设计到生产的一站式家居服解决方案。支持小批量定制，快速打样，品质保证。</p>
-            <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary">立即咨询代工</a>
-                <a href="#products" class="btn btn-secondary">查看产品案例</a>
-            </div>
-        </div>
-    </section>
-    
-    <!-- 代工服务 -->
-    <section id="services" class="services">
-        <div class="container">
-            <h2>💼 代工服务</h2>
-            <div class="service-grid">
-                <!-- 阿罗裤代工 -->
-                <div class="service-card">
-                    <div class="service-icon">🩲</div>
-                    <div class="service-info">
-                        <h3>阿罗裤代工</h3>
-                        <p>专业阿罗裤生产线，支持各种面料、版型定制</p>
-                        <ul>
-                            <li>✅ 日产能：5000+ 件</li>
-                            <li>✅ 起订量：100 件/款</li>
-                            <li>✅ 打样周期：3-5 天</li>
-                            <li>✅ 大货周期：15-20 天</li>
-                            <li>✅ 支持贴牌/OEM/ODM</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- 家居服代工 -->
-                <div class="service-card">
-                    <div class="service-icon">👕</div>
-                    <div class="service-info">
-                        <h3>家居服代工</h3>
-                        <p>睡衣、家居短裤、T 恤等全品类家居服生产</p>
-                        <ul>
-                            <li>✅ 面料选择：纯棉、莫代尔、冰丝</li>
-                            <li>✅ 工艺：印花、刺绣、提花</li>
-                            <li>✅ 尺码：S-XXXL 全尺码</li>
-                            <li>✅ 包装：定制吊牌、包装袋</li>
-                            <li>✅ 质检：国标 A 类/B 类可选</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- 品牌定制 -->
-                <div class="service-card">
-                    <div class="service-icon">🎨</div>
-                    <div class="service-info">
-                        <h3>品牌定制</h3>
-                        <p>从设计到生产，打造您的专属家居品牌</p>
-                        <ul>
-                            <li>✅ 免费设计咨询</li>
-                            <li>✅ LOGO 定制</li>
-                            <li>✅ 包装设计</li>
-                            <li>✅ 营销物料支持</li>
-                            <li>✅ 一件代发服务</li>
-                        </ul>
-                    </div>
+    <div class="container">
+        <div class="products">
+
+            <div class="product-card">
+                <img src="" alt="" class="product-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/%3E%3Ctext fill=%22%23999%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3E暂无图片%3C/text%3E%3C/svg%3E'">
+                <div class="product-info">
+                    <h3 class="product-title"></h3>
+                    <div class="product-price"></div>
+                    <p class="product-desc"></p>
                 </div>
             </div>
         </div>
-    </section>
+
+    </div>
     
-    <!-- 超级符号系统 -->
-    <section class="symbols">
-        <div class="container">
-            <h2>🎯 宅趣产品符号系统</h2>
-            <p style="margin-bottom: 30px; color: #666;">○□△× 分类法，一眼看懂产品定位</p>
-            <div class="symbol-grid">
-                <div class="symbol-item">
-                    <div class="symbol-shape symbol-circle">○</div>
-                    <p>儿童/萌系</p>
-                    <small>动物拖鞋、飞行棋床单</small>
-                </div>
-                <div class="symbol-item">
-                    <div class="symbol-shape symbol-square">□</div>
-                    <p>成人基础款</p>
-                    <small>纯色家居服、抗菌袜</small>
-                </div>
-                <div class="symbol-item">
-                    <div class="symbol-shape symbol-triangle">△</div>
-                    <p>功能创新款</p>
-                    <small>显瘦版型、降温面料</small>
-                </div>
-                <div class="symbol-item">
-                    <div class="symbol-shape symbol-x">×</div>
-                    <p>限量联名款</p>
-                    <small>博弈袜、盲盒系列</small>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- 产品人格化 -->
-    <section class="characters">
-        <div class="container">
-            <h2>🎭 产品也有 personality</h2>
-            <div class="character-grid">
-                <div class="character-card">
-                    <div class="character-avatar">🧦</div>
-                    <h3>小右</h3>
-                    <p class="character-role">船袜 · 唠叨管家</p>
-                    <p class="character-quote">"主人别用热水泡我！我会害羞的～"</p>
-                </div>
-                <div class="character-card">
-                    <div class="character-avatar">🎲</div>
-                    <h3>布布</h3>
-                    <p class="character-role">博弈袜 · 胜负狂魔</p>
-                    <p class="character-quote">"敢不敢脱袜子 PK？输的人洗碗！"</p>
-                </div>
-                <div class="character-card">
-                    <div class="character-avatar">🏠</div>
-                    <h3>宅趣君</h3>
-                    <p class="character-role">品牌 IP · 变形达人</p>
-                    <p class="character-quote">"方形脑袋，三角身体，快乐无限！"</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- 工厂实拍 -->
-    <section id="factory" class="factory">
-        <div class="container">
-            <h2>🏭 工厂实拍</h2>
-            <div class="factory-grid">
-                <div class="factory-card">
-                    <div class="factory-img">📸 裁剪车间实拍</div>
-                    <div class="factory-info">
-                        <h3>智能裁剪车间</h3>
-                        <p>自动裁床，精度±0.5mm，确保每片布料精准裁剪</p>
-                    </div>
-                </div>
-                <div class="factory-card">
-                    <div class="factory-img">📸 缝纫生产线</div>
-                    <div class="factory-info">
-                        <h3>缝纫生产线</h3>
-                        <p>50+ 台工业缝纫机，熟练工人，日产能 5000+ 件</p>
-                    </div>
-                </div>
-                <div class="factory-card">
-                    <div class="factory-img">📸 质检区</div>
-                    <div class="factory-info">
-                        <h3>严格质检</h3>
-                        <p>三道质检流程，确保每件产品符合国标 A 类/B 类标准</p>
-                    </div>
-                </div>
-                <div class="factory-card">
-                    <div class="factory-img">📸 包装车间</div>
-                    <div class="factory-info">
-                        <h3>定制包装</h3>
-                        <p>支持定制吊牌、包装袋、礼盒，提升品牌质感</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- 联系我们 -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2>📞 立即咨询代工</h2>
-            <div class="contact-info">
-                <p>📱 微信/电话：[您的联系方式]</p>
-                <p>📧 邮箱：[您的邮箱]</p>
-                <p>🏭 工厂地址：[您的工厂地址]</p>
-            </div>
-            <a href="mailto:your@email.com" class="btn btn-secondary" style="background: white; color: #667eea;">发送询盘邮件</a>
-        </div>
-    </section>
-    
-    <!-- 页脚 -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 宅趣 ZHAIQU 版权所有</p>
-            <p style="margin-top: 10px; font-size: 0.9em;">专业家居服代工 | 阿罗裤生产 | 品牌定制</p>
-        </div>
-    </footer>
+    <div class="footer">
+        <p>© 2026 宅趣网站 · 专业代工服务</p>
+    </div>
 </body>
 </html>
