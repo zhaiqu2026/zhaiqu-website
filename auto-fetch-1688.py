@@ -52,6 +52,14 @@ def fetch_product_info(url, context):
         # 等待页面加载
         page.wait_for_timeout(5000)
         
+        # 截图调试（仅调试用）
+        # page.screenshot(path="debug.png")
+        
+        # 检查是否需要登录
+        page_content = page.content()
+        if "登录" in page_content or "login" in page_content.lower():
+            print(f"  ⚠️  页面需要登录才能查看详细信息")
+        
         # 尝试提取商品信息
         product_info = {
             "url": url,
@@ -62,46 +70,78 @@ def fetch_product_info(url, context):
             "company": ""
         }
         
-        # 提取标题
-        try:
-            title = page.query_selector("h.d-title")
-            if title:
-                product_info["title"] = title.inner_text().strip()
-            else:
-                # 备用选择器
-                title = page.query_selector("h1")
+        # 提取标题 - 多种选择器尝试
+        title_selectors = [
+            "h.d-title",
+            "h1",
+            ".title",
+            "[data-title]",
+            "title"
+        ]
+        for selector in title_selectors:
+            try:
+                title = page.query_selector(selector)
                 if title:
-                    product_info["title"] = title.inner_text().strip()[:100]
-        except Exception as e:
-            print(f"  ⚠️  标题提取失败：{e}")
+                    text = title.inner_text().strip()
+                    if text and len(text) > 5:
+                        product_info["title"] = text[:100]
+                        break
+            except:
+                continue
         
         # 提取价格
-        try:
-            price = page.query_selector(".price-content")
-            if price:
-                product_info["price"] = price.inner_text().strip()
-        except Exception as e:
-            print(f"  ⚠️  价格提取失败：{e}")
+        price_selectors = [
+            ".price-content",
+            ".price",
+            "[data-price]",
+            ".dt-price"
+        ]
+        for selector in price_selectors:
+            try:
+                price = page.query_selector(selector)
+                if price:
+                    text = price.inner_text().strip()
+                    if text:
+                        product_info["price"] = text
+                        break
+            except:
+                continue
         
         # 提取图片
         try:
-            images = page.query_selector_all(".img-container img")
-            for img in images[:5]:  # 最多取 5 张
+            images = page.query_selector_all("img")
+            for img in images[:10]:  # 最多检查 10 张图
                 src = img.get_attribute("src")
-                if src and src.startswith("http"):
-                    product_info["images"].append(src)
+                if src and src.startswith("http") and "alicdn" in src:
+                    if src not in product_info["images"]:
+                        product_info["images"].append(src)
+                        if len(product_info["images"]) >= 3:
+                            break
         except Exception as e:
             print(f"  ⚠️  图片提取失败：{e}")
         
         # 提取公司名
         try:
-            company = page.query_selector(".company-name")
+            company = page.query_selector(".company-name, .seller-name")
             if company:
                 product_info["company"] = company.inner_text().strip()
         except Exception as e:
             print(f"  ⚠️  公司名提取失败：{e}")
         
-        print(f"  ✅ 抓取成功：{product_info['title'][:50] if product_info['title'] else '无标题'}")
+        # 如果什么都没抓到，尝试获取页面标题
+        if not product_info["title"]:
+            try:
+                page_title = page.title()
+                if page_title:
+                    product_info["title"] = page_title[:100]
+            except:
+                pass
+        
+        if product_info["title"] or product_info["images"]:
+            print(f"  ✅ 抓取成功：{product_info['title'][:50] if product_info['title'] else '有图片'}")
+        else:
+            print(f"  ⚠️  未抓取到有效信息（可能需要登录）")
+        
         return product_info
         
     except PlaywrightTimeout:
