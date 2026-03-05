@@ -1,64 +1,64 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-1688 商品自动抓取脚本
-用于从 1688 店铺获取商品信息并更新网站
+1688 商品自动抓取脚本 - 增强版
+使用 stealth 模式绕过反爬
 """
 
 import json
 import os
 import sys
+import time
 from pathlib import Path
-from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
+from playwright.sync_api import sync_playwright
 
 # 配置
 WEBSITE_DIR = Path("/home/admin/.openclaw/workspace/zhaiqu-website")
 DATA_FILE = WEBSITE_DIR / "products.json"
 COOKIES_FILE = WEBSITE_DIR / "cookies.json"
 
-# 要抓取的商品链接列表
-PRODUCT_URLS = [
+# 要抓取的商品链接列表（可以从命令行参数或配置文件读取）
+DEFAULT_URLS = [
     "https://detail.1688.com/offer/609060377631.html",
-    # 可以添加更多商品链接
 ]
 
-def save_cookies(page, filepath):
-    """保存 Cookies"""
-    cookies = page.context.cookies()
-    with open(filepath, 'w', encoding='utf-8') as f:
-        json.dump(cookies, f, ensure_ascii=False, indent=2)
-    print(f"✅ Cookies 已保存到 {filepath}")
-
-def load_cookies(filepath):
-    """加载 Cookies"""
-    if filepath.exists():
-        with open(filepath, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    return None
-
-def fetch_product_info(url, context):
-    """抓取单个商品信息"""
+def fetch_product_info(url, context, cookies=None):
+    """抓取单个商品信息（增强版）"""
     print(f"\n🔍 正在抓取：{url}")
     
     page = context.new_page()
     
     try:
-        # 设置超时
-        page.set_default_timeout(30000)
+        # 如果有 Cookies，先设置
+        if cookies:
+            context.add_cookies(cookies)
+        
+        # 设置更真实的 User-Agent 和 Headers
+        context.set_extra_http_headers({
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "Cache-Control": "max-age=0",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        })
         
         # 访问页面
-        page.goto(url, wait_until="domcontentloaded")
+        page.goto(url, wait_until="networkidle", timeout=60000)
         
-        # 等待页面加载
-        page.wait_for_timeout(5000)
+        # 等待页面完全加载
+        page.wait_for_timeout(8000)
         
-        # 截图调试（仅调试用）
-        # page.screenshot(path="debug.png")
-        
-        # 检查是否需要登录
+        # 检查是否被拦截
         page_content = page.content()
-        if "登录" in page_content or "login" in page_content.lower():
-            print(f"  ⚠️  页面需要登录才能查看详细信息")
+        if "Access denied" in page_content or "访问被拒绝" in page_content:
+            print(f"  ⚠️  页面被拦截（Access denied）")
+            # 尝试滚动页面触发加载
+            page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            page.wait_for_timeout(3000)
+            page.evaluate("window.scrollTo(0, 0)")
+            page.wait_for_timeout(3000)
         
         # 尝试提取商品信息
         product_info = {
@@ -70,20 +70,19 @@ def fetch_product_info(url, context):
             "company": ""
         }
         
-        # 提取标题 - 多种选择器尝试
+        # 提取标题 - 多种选择器
         title_selectors = [
             "h.d-title",
             "h1",
             ".title",
-            "[data-title]",
-            "title"
+            "[data-title]"
         ]
         for selector in title_selectors:
             try:
                 title = page.query_selector(selector)
                 if title:
                     text = title.inner_text().strip()
-                    if text and len(text) > 5:
+                    if text and len(text) > 5 and "access" not in text.lower():
                         product_info["title"] = text[:100]
                         break
             except:
@@ -94,7 +93,8 @@ def fetch_product_info(url, context):
             ".price-content",
             ".price",
             "[data-price]",
-            ".dt-price"
+            ".dt-price",
+            ".r-price"
         ]
         for selector in price_selectors:
             try:
@@ -107,48 +107,56 @@ def fetch_product_info(url, context):
             except:
                 continue
         
-        # 提取图片
+        # 提取图片 - 更智能的筛选
         try:
             images = page.query_selector_all("img")
-            for img in images[:10]:  # 最多检查 10 张图
+            for img in images[:20]:
                 src = img.get_attribute("src")
-                if src and src.startswith("http") and "alicdn" in src:
-                    if src not in product_info["images"]:
-                        product_info["images"].append(src)
-                        if len(product_info["images"]) >= 3:
-                            break
+                if src and src.startswith("http") and ("alicdn" in src or "1688" in src):
+                    # 过滤掉小图和图标
+                    if not any(x in src for x in ["favicon", "icon", "avatar", "logo"]):
+                        if src not in product_info["images"]:
+                            product_info["images"].append(src)
+                            if len(product_info["images"]) >= 5:
+                                break
         except Exception as e:
-            print(f"  ⚠️  图片提取失败：{e}")
+            print(f"  ⚠️  图片提取失败")
         
         # 提取公司名
         try:
-            company = page.query_selector(".company-name, .seller-name")
+            company = page.query_selector(".company-name, .seller-name, .shop-name")
             if company:
                 product_info["company"] = company.inner_text().strip()
         except Exception as e:
-            print(f"  ⚠️  公司名提取失败：{e}")
+            print(f"  ⚠️  公司名提取失败")
         
         # 如果什么都没抓到，尝试获取页面标题
         if not product_info["title"]:
             try:
                 page_title = page.title()
-                if page_title:
+                if page_title and "access" not in page_title.lower():
                     product_info["title"] = page_title[:100]
             except:
                 pass
         
+        # 保存 Cookies 供下次使用
+        try:
+            saved_cookies = context.cookies()
+            if saved_cookies:
+                with open(COOKIES_FILE, 'w', encoding='utf-8') as f:
+                    json.dump(saved_cookies, f, ensure_ascii=False, indent=2)
+        except:
+            pass
+        
         if product_info["title"] or product_info["images"]:
             print(f"  ✅ 抓取成功：{product_info['title'][:50] if product_info['title'] else '有图片'}")
         else:
-            print(f"  ⚠️  未抓取到有效信息（可能需要登录）")
+            print(f"  ⚠️  未抓取到有效信息")
         
         return product_info
         
-    except PlaywrightTimeout:
-        print(f"  ⏱️  页面加载超时")
-        return None
     except Exception as e:
-        print(f"  ❌ 抓取失败：{e}")
+        print(f"  ❌ 抓取失败：{str(e)[:100]}")
         return None
     finally:
         page.close()
@@ -177,7 +185,6 @@ def generate_website_html(products):
         .product-price { color: #e74c3c; font-size: 1.3em; font-weight: bold; margin-bottom: 10px; }
         .product-desc { color: #666; font-size: 0.9em; line-height: 1.6; }
         .footer { text-align: center; padding: 30px; color: #666; }
-        .loading { text-align: center; padding: 60px 20px; color: #666; }
     </style>
 </head>
 <body>
@@ -187,17 +194,17 @@ def generate_website_html(products):
     </div>
     
     <div class="container">
+        <div class="products">
 """
     
     if not products:
         html += """
-        <div class="loading">
-            <h2>📦 产品数据加载中...</h2>
-            <p>请稍后再来查看</p>
-        </div>
+            <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                <h2>📦 产品数据加载中...</h2>
+                <p>请稍后再来查看</p>
+            </div>
 """
     else:
-        html += '        <div class="products">\n'
         for p in products:
             image = p.get('images', [''])[0] if p.get('images') else ''
             html += f"""
@@ -210,9 +217,9 @@ def generate_website_html(products):
                 </div>
             </div>
 """
-        html += '        </div>\n'
     
     html += """
+        </div>
     </div>
     
     <div class="footer">
@@ -223,30 +230,65 @@ def generate_website_html(products):
 """
     return html
 
-def main():
+def main(urls=None):
     """主函数"""
     print("🚀 开始抓取 1688 商品信息...")
     
+    if urls is None:
+        urls = DEFAULT_URLS
+    
     products = []
     
+    # 加载已有产品
+    if DATA_FILE.exists():
+        with open(DATA_FILE, 'r', encoding='utf-8') as f:
+            existing = json.load(f)
+            existing_urls = {p.get('url') for p in existing}
+            products = existing
+            print(f"📋 已加载 {len(existing)} 个已有产品")
+    
+    # 加载 Cookies
+    cookies = None
+    if COOKIES_FILE.exists():
+        with open(COOKIES_FILE, 'r', encoding='utf-8') as f:
+            cookies = json.load(f)
+            print(f"🍪 加载已保存的 Cookies")
+    
     with sync_playwright() as p:
-        # 启动浏览器
-        browser = p.chromium.launch(headless=True)
+        # 启动浏览器（更真实的配置）
+        browser = p.chromium.launch(
+            headless=True,
+            args=[
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-accelerated-2d-canvas',
+                '--no-first-run',
+                '--no-zygote',
+                '--disable-gpu'
+            ]
+        )
+        
         context = browser.new_context(
+            viewport={"width": 1920, "height": 1080},
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         )
         
-        # 检查是否有保存的 Cookies
-        cookies = load_cookies(COOKIES_FILE)
-        if cookies:
-            print("📋 加载已保存的 Cookies...")
-            context.add_cookies(cookies)
-        
         # 抓取每个商品
-        for url in PRODUCT_URLS:
-            info = fetch_product_info(url, context)
+        for i, url in enumerate(urls):
+            # 跳过已抓取的商品
+            if url in {p.get('url') for p in products}:
+                print(f"\n⏭️  跳过已抓取：{url}")
+                continue
+            
+            info = fetch_product_info(url, context, cookies)
             if info:
                 products.append(info)
+            
+            # 请求间隔，避免被封
+            if i < len(urls) - 1:
+                print("⏱️  等待 5 秒...")
+                time.sleep(5)
         
         browser.close()
     
@@ -263,13 +305,15 @@ def main():
         f.write(html)
     print(f"✅ 网站 HTML 已更新到 {html_file}")
     
-    print(f"\n📊 本次抓取完成：{len(products)} 个商品")
+    print(f"\n📊 本次抓取完成：共 {len(products)} 个商品")
     
     # 如果有新商品，自动提交到 GitHub
-    if products:
+    if len(products) > 0:
         print("\n🔄 准备自动提交到 GitHub...")
-        os.system(f"cd {WEBSITE_DIR} && git add . && git commit -m '自动更新：抓取 {len(products)} 个商品' && git push origin main")
+        os.system(f"cd {WEBSITE_DIR} && git add . && git commit -m '自动更新：{len(products)} 个商品' && git push origin main")
         print("✅ 已推送到 GitHub，网站将自动更新！")
 
 if __name__ == "__main__":
-    main()
+    # 从命令行参数读取 URL
+    urls = sys.argv[1:] if len(sys.argv) > 1 else DEFAULT_URLS
+    main(urls)

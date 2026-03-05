@@ -1,0 +1,12 @@
+[
+  {
+    "url": "https://detail.1688.com/offer/609060377631.html",
+    "title": "产品名称",
+    "price": "价格区间（如：¥10.50-15.00）",
+    "images": [
+      "https://example.com/image1.jpg"
+    ],
+    "description": "产品描述",
+    "company": "公司名称"
+  }
+]
