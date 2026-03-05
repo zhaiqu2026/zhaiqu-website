@@ -1,0 +1,13 @@
+{
+  "name": "zhaiqu-website",
+  "buildCommand": "echo 'Static site, no build needed'",
+  "outputDirectory": ".",
+  "devCommand": "echo 'Development server'",
+  "installCommand": "echo 'No dependencies needed'",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
