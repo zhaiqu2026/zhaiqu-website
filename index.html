@@ -3,88 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宅趣 - 专业服装代工 | 品质铸就信赖</title>
+    <title>宅趣 ZHAIQU - 专业服装代工</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif; line-height: 1.6; color: #333; overflow-x: hidden; }
+        body { font-family: "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.8; color: #1a1a1a; overflow-x: hidden; background: #ffffff; }
         
-        /* 导航栏 */
-        .navbar { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.98); box-shadow: 0 2px 20px rgba(0,0,0,0.1); z-index: 1000; backdrop-filter: blur(10px); }
-        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
-        .logo { font-size: 1.8em; font-weight: bold; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-links { display: flex; gap: 40px; }
-        .nav-links a { text-decoration: none; color: #333; font-weight: 500; transition: color 0.3s; position: relative; }
-        .nav-links a:hover { color: #667eea; }
-        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: width 0.3s; }
-        .nav-links a:hover::after { width: 100%; }
+        /* 导航栏 - 极简风格 */
+        .navbar { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95); border-bottom: 1px solid #eaeaea; z-index: 1000; backdrop-filter: blur(20px); }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; }
+        .logo { font-size: 1.4em; font-weight: 300; letter-spacing: 2px; color: #0a0a0a; }
+        .logo span { font-weight: 600; }
+        .nav-links { display: flex; gap: 50px; }
+        .nav-links a { text-decoration: none; color: #666; font-size: 0.9em; letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase; }
+        .nav-links a:hover { color: #0a0a0a; }
         
-        /* 首页 Banner */
-        .hero { height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; text-align: center; color: white; position: relative; overflow: hidden; }
-        .hero::before { content: ''; position: absolute; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: rotate 30s linear infinite; }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .hero-content { position: relative; z-index: 1; }
-        .hero h1 { font-size: 4em; margin-bottom: 20px; text-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: fadeInUp 1s ease; }
-        .hero p { font-size: 1.5em; opacity: 0.95; margin-bottom: 40px; animation: fadeInUp 1s ease 0.2s both; }
-        .hero-btn { display: inline-block; padding: 18px 50px; background: white; color: #667eea; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.1em; transition: all 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: fadeInUp 1s ease 0.4s both; }
-        .hero-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        /* 首页 Banner - 大气简约 */
+        .hero { height: 100vh; background: #0a0a0a; display: flex; align-items: center; justify-content: center; text-align: center; color: white; position: relative; }
+        .hero-content { position: relative; z-index: 1; max-width: 900px; padding: 0 30px; }
+        .hero h1 { font-size: 3.5em; font-weight: 200; letter-spacing: 8px; margin-bottom: 25px; text-transform: uppercase; }
+        .hero h1 span { font-weight: 600; }
+        .hero-vision { font-size: 1.4em; opacity: 0.95; letter-spacing: 4px; margin-bottom: 25px; font-weight: 400; color: rgba(255,255,255,0.95); }
+        .hero p { font-size: 1.1em; opacity: 0.7; letter-spacing: 3px; margin-bottom: 50px; font-weight: 300; }
+        .hero-btn { display: inline-block; padding: 18px 60px; background: transparent; color: white; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); font-size: 0.85em; letter-spacing: 3px; transition: all 0.4s; text-transform: uppercase; }
+        .hero-btn:hover { background: white; color: #0a0a0a; border-color: white; }
         
         /* 通用区块 */
-        .section { padding: 100px 30px; }
-        .section-title { text-align: center; font-size: 2.8em; margin-bottom: 20px; color: #333; }
-        .section-subtitle { text-align: center; color: #666; font-size: 1.2em; margin-bottom: 60px; }
+        .section { padding: 150px 50px; }
+        .section-title { text-align: center; font-size: 2.2em; font-weight: 300; letter-spacing: 5px; margin-bottom: 20px; text-transform: uppercase; }
+        .section-subtitle { text-align: center; color: #999; font-size: 0.95em; letter-spacing: 2px; margin-bottom: 80px; font-weight: 300; }
         
-        /* 关于我们 */
-        .about { background: #f8f9fa; }
-        .about-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-        .about-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); transition: transform 0.3s; }
-        .about-card:hover { transform: translateY(-10px); }
-        .about-icon { font-size: 3em; margin-bottom: 20px; }
-        .about-card h3 { font-size: 1.5em; margin-bottom: 15px; color: #667eea; }
-        .about-card p { color: #666; line-height: 1.8; }
+        /* 关于我们 - 极简卡片 */
+        .about { background: #fafafa; }
+        .about-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 60px; }
+        .about-card { background: white; padding: 50px 40px; border: 1px solid #eaeaea; transition: all 0.4s; }
+        .about-card:hover { border-color: #0a0a0a; transform: translateY(-5px); }
+        .about-number { font-size: 3em; font-weight: 200; color: #d4d4d4; margin-bottom: 25px; line-height: 1; }
+        .about-card h3 { font-size: 1.1em; font-weight: 500; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; }
+        .about-card p { color: #888; line-height: 2; font-size: 0.95em; font-weight: 300; }
         
-        /* 产品展示 */
+        /* 产品展示 - 高端陈列 */
         .products { background: white; }
-        .product-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
-        .product-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.1); transition: all 0.3s; }
-        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
-        .product-image { width: 100%; height: 300px; object-fit: cover; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
-        .product-info { padding: 30px; }
-        .product-title { font-size: 1.4em; margin-bottom: 10px; color: #333; }
-        .product-price { color: #e74c3c; font-size: 1.5em; font-weight: bold; margin-bottom: 15px; }
-        .product-desc { color: #666; line-height: 1.8; margin-bottom: 20px; }
-        .product-btn { display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 25px; font-weight: 500; transition: all 0.3s; }
-        .product-btn:hover { box-shadow: 0 5px 20px rgba(102,126,234,0.4); }
+        .product-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 50px; }
+        .product-card { background: white; overflow: hidden; border: 1px solid #eaeaea; transition: all 0.4s; }
+        .product-card:hover { box-shadow: 0 30px 80px rgba(0,0,0,0.08); }
+        .product-image { width: 100%; height: 450px; object-fit: cover; background: #f5f5f5; }
+        .product-info { padding: 40px; }
+        .product-title { font-size: 1.2em; font-weight: 400; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
+        .product-desc { color: #888; line-height: 2.2; font-size: 0.9em; font-weight: 300; margin-bottom: 30px; }
+        .product-btn { display: inline-block; padding: 15px 40px; background: #0a0a0a; color: white; text-decoration: none; font-size: 0.8em; letter-spacing: 2px; transition: all 0.3s; text-transform: uppercase; border: none; }
+        .product-btn:hover { background: #333; }
         
-        /* 加工能力 */
-        .capabilities { background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); color: white; }
+        /* 加工能力 - 深色高级感 */
+        .capabilities { background: #0a0a0a; color: white; }
         .capabilities .section-title { color: white; }
-        .capabilities .section-subtitle { color: rgba(255,255,255,0.8); }
-        .capability-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-        .capability-item { text-align: center; padding: 30px; background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px); }
-        .capability-icon { font-size: 3.5em; margin-bottom: 15px; }
-        .capability-item h3 { font-size: 1.3em; margin-bottom: 10px; }
-        .capability-item p { opacity: 0.9; }
+        .capabilities .section-subtitle { color: #666; }
+        .capability-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; }
+        .capability-item { text-align: center; padding: 40px 30px; border: 1px solid #222; transition: all 0.4s; }
+        .capability-item:hover { border-color: #444; background: rgba(255,255,255,0.02); }
+        .capability-number { font-size: 2.5em; font-weight: 200; color: #333; margin-bottom: 20px; line-height: 1; }
+        .capability-item h3 { font-size: 1em; font-weight: 400; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
+        .capability-item p { color: #666; font-size: 0.9em; font-weight: 300; line-height: 1.8; }
         
-        /* 联系我们 */
-        .contact { background: #f8f9fa; }
-        .contact-container { max-width: 800px; margin: 0 auto; text-align: center; }
-        .contact-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
-        .contact-item { padding: 30px; background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
-        .contact-icon { font-size: 2.5em; margin-bottom: 15px; }
-        .contact-item h3 { color: #667eea; margin-bottom: 10px; }
+        /* 联系我们 - 极简风格 */
+        .contact { background: #fafafa; }
+        .contact-container { max-width: 700px; margin: 0 auto; text-align: center; }
+        .contact-container p { font-size: 1em; color: #666; margin-bottom: 60px; font-weight: 300; letter-spacing: 1px; }
+        .contact-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 40px; margin-top: 50px; }
+        .contact-item { padding: 40px 30px; background: white; border: 1px solid #eaeaea; transition: all 0.4s; }
+        .contact-item:hover { border-color: #0a0a0a; }
+        .contact-item h3 { font-size: 0.85em; font-weight: 500; letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; color: #0a0a0a; }
+        .contact-item p { color: #888; font-size: 0.9em; font-weight: 300; }
         
-        /* 页脚 */
-        .footer { background: #2c3e50; color: white; text-align: center; padding: 40px 30px; }
-        .footer p { opacity: 0.8; }
+        /* 页脚 - 极简 */
+        .footer { background: #0a0a0a; color: #666; text-align: center; padding: 60px 30px; border-top: 1px solid #1a1a1a; }
+        .footer p { font-size: 0.8em; letter-spacing: 2px; font-weight: 300; text-transform: uppercase; }
         
         /* 移动端适配 */
         @media (max-width: 768px) {
+            .nav-container { padding: 20px 25px; }
             .nav-links { display: none; }
-            .hero h1 { font-size: 2.5em; }
-            .hero p { font-size: 1.2em; }
-            .section { padding: 60px 20px; }
-            .section-title { font-size: 2em; }
+            .hero h1 { font-size: 2em; letter-spacing: 4px; }
+            .hero p { font-size: 0.95em; letter-spacing: 2px; }
+            .section { padding: 100px 25px; }
+            .section-title { font-size: 1.6em; letter-spacing: 3px; }
+            .product-grid { grid-template-columns: 1fr; }
+            .about-grid { gap: 30px; }
         }
     </style>
 </head>
@@ -92,13 +95,13 @@
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">🏠 宅趣</div>
+            <div class="logo">宅趣 <span>ZHAIQU</span></div>
             <div class="nav-links">
                 <a href="#home">首页</a>
-                <a href="#about">关于我们</a>
-                <a href="#products">产品中心</a>
-                <a href="#capabilities">加工能力</a>
-                <a href="#contact">联系我们</a>
+                <a href="#about">关于</a>
+                <a href="#products">产品</a>
+                <a href="#capabilities">工艺</a>
+                <a href="#contact">联系</a>
             </div>
         </div>
     </nav>
@@ -106,8 +109,9 @@
     <!-- 首页 Banner -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1>专业服装代工 · 品质铸就信赖</h1>
-            <p>十年匠心 · 精工细作 · 为您打造高品质服装产品</p>
+            <h1>专业服装<span>代工</span></h1>
+            <p class="hero-vision">让家成为世界上最有趣的游乐场</p>
+            <p>十年匠心 · 精工细作 · 品质铸就信赖</p>
             <a href="#contact" class="hero-btn">立即咨询</a>
         </div>
     </section>
@@ -115,25 +119,25 @@
     <!-- 关于我们 -->
     <section class="section about" id="about">
         <h2 class="section-title">为什么选择宅趣</h2>
-        <p class="section-subtitle">Professional Quality · Trusted Service</p>
+        <p class="section-subtitle">WHY CHOOSE ZHAIQU</p>
         <div class="about-grid">
             <div class="about-card">
-                <div class="about-icon">🏆</div>
+                <div class="about-number">01</div>
                 <h3>品质保证</h3>
                 <p>严格的质量控制体系，每一道工序都经过精心检验，确保产品品质达到行业标准。</p>
             </div>
             <div class="about-card">
-                <div class="about-icon">⚡</div>
+                <div class="about-number">02</div>
                 <h3>快速交付</h3>
                 <p>高效的生产流程，准时交付，让您的产品快速上市，抢占市场先机。</p>
             </div>
             <div class="about-card">
-                <div class="about-icon">💎</div>
+                <div class="about-number">03</div>
                 <h3>精工细作</h3>
                 <p>十年经验技术团队，精湛工艺，细节把控，为您打造精品服装。</p>
             </div>
             <div class="about-card">
-                <div class="about-icon">🤝</div>
+                <div class="about-number">04</div>
                 <h3>定制服务</h3>
                 <p>根据您的需求提供个性化定制方案，从设计到生产一站式服务。</p>
             </div>
@@ -143,43 +147,41 @@
     <!-- 产品展示 -->
     <section class="section products" id="products">
         <h2 class="section-title">产品中心</h2>
-        <p class="section-subtitle">Premium Products · Excellent Quality</p>
+        <p class="section-subtitle">PREMIUM PRODUCTS</p>
         <div class="product-grid">
             <div class="product-card">
-                <img src="https://img.alicdn.com/imgextra/i2/2206748485001/O1CN01ZxGpQr1Y8rVqKqZ8Y_!!2206748485001.jpg" alt="男士阿罗裤" class="product-image" onerror="this.style.background='linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)'">
+                <img src="https://img.alicdn.com/imgextra/i2/2206748485001/O1CN01ZxGpQr1Y8rVqKqZ8Y_!!2206748485001.jpg" alt="男士阿罗裤" class="product-image" onerror="this.style.background='#f5f5f5'">
                 <div class="product-info">
                     <h3 class="product-title">男士阿罗裤 · 平角内裤</h3>
-                    <div class="product-price">代工价格面议</div>
                     <p class="product-desc">采用优质面料，舒适透气，精工裁剪，贴合人体工学设计。支持批量定制，可根据客户需求调整面料、颜色、尺码等规格。</p>
                     <a href="#contact" class="product-btn">咨询订购</a>
                 </div>
             </div>
-            <!-- 可以添加更多产品 -->
         </div>
     </section>
 
     <!-- 加工能力 -->
     <section class="section capabilities" id="capabilities">
         <h2 class="section-title">加工能力</h2>
-        <p class="section-subtitle">Advanced Equipment · Professional Team</p>
+        <p class="section-subtitle">PROFESSIONAL CAPABILITIES</p>
         <div class="capability-grid">
             <div class="capability-item">
-                <div class="capability-icon">✂️</div>
+                <div class="capability-number">01</div>
                 <h3>裁剪工艺</h3>
                 <p>电脑自动裁剪，精准高效</p>
             </div>
             <div class="capability-item">
-                <div class="capability-icon">🧵</div>
+                <div class="capability-number">02</div>
                 <h3>缝制工艺</h3>
                 <p>专业车工，线迹平整</p>
             </div>
             <div class="capability-item">
-                <div class="capability-icon">🎨</div>
+                <div class="capability-number">03</div>
                 <h3>印花工艺</h3>
                 <p>多种印花技术，图案精美</p>
             </div>
             <div class="capability-item">
-                <div class="capability-icon">✅</div>
+                <div class="capability-number">04</div>
                 <h3>质检流程</h3>
                 <p>严格质检，品质保证</p>
             </div>
@@ -189,22 +191,19 @@
     <!-- 联系我们 -->
     <section class="section contact" id="contact">
         <h2 class="section-title">联系我们</h2>
-        <p class="section-subtitle">Get In Touch · Welcome Inquiry</p>
+        <p class="section-subtitle">GET IN TOUCH</p>
         <div class="contact-container">
-            <p style="font-size: 1.2em; color: #666; margin-bottom: 30px;">欢迎咨询合作，我们期待与您共创美好未来！</p>
+            <p>欢迎咨询合作，我们期待与您共创美好未来</p>
             <div class="contact-info">
                 <div class="contact-item">
-                    <div class="contact-icon">📱</div>
                     <h3>联系电话</h3>
                     <p>请咨询获取</p>
                 </div>
                 <div class="contact-item">
-                    <div class="contact-icon">📧</div>
                     <h3>电子邮箱</h3>
                     <p>请咨询获取</p>
                 </div>
                 <div class="contact-item">
-                    <div class="contact-icon">📍</div>
                     <h3>公司地址</h3>
                     <p>深圳市</p>
                 </div>
@@ -214,7 +213,7 @@
 
     <!-- 页脚 -->
     <footer class="footer">
-        <p>© 2026 宅趣 · 专业服装代工服务</p>
+        <p>© 2026 ZHAIQU · 专业服装代工服务</p>
     </footer>
 
     <script>
