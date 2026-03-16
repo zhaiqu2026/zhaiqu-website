@@ -3,91 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宅趣 ZHAIQU - 专业服装代工</title>
+    <title>宅趣 ZHAIQU - 让家成为最有趣的游乐场</title>
+    <!-- 引入站酷快乐体 -->
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.8; color: #1a1a1a; overflow-x: hidden; background: #ffffff; }
+        body { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; line-height: 1.8; color: #333; overflow-x: hidden; background: #F9F9F9; }
         
-        /* 导航栏 - 极简风格 */
-        .navbar { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95); border-bottom: 1px solid #eaeaea; z-index: 1000; backdrop-filter: blur(20px); }
-        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; }
-        .logo { font-size: 1.4em; font-weight: 300; letter-spacing: 2px; color: #0a0a0a; }
-        .logo span { font-weight: 600; }
-        .nav-links { display: flex; gap: 50px; }
-        .nav-links a { text-decoration: none; color: #666; font-size: 0.9em; letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase; }
-        .nav-links a:hover { color: #0a0a0a; }
+        /* 配色变量 */
+        :root {
+            --primary: #FFE66D;      /* 元气黄 */
+            --secondary1: #FFB6C1;   /* 软萌粉 */
+            --secondary2: #98FB98;   /* 薄荷绿 */
+            --neutral1: #F9F9F9;     /* 米白 */
+            --neutral2: #E5E5E5;     /* 浅灰 */
+            --text: #333333;
+            --text-light: #666666;
+        }
         
-        /* 首页 Banner - 大气简约 */
-        .hero { height: 100vh; background: #0a0a0a; display: flex; align-items: center; justify-content: center; text-align: center; color: white; position: relative; }
+        /* 导航栏 - 趣味风格 */
+        .navbar { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.98); box-shadow: 0 4px 20px rgba(255,230,109,0.3); z-index: 1000; backdrop-filter: blur(10px); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
+        .logo { font-family: "ZCOOL KuaiLe", cursive; font-size: 1.8em; color: #FFB6C1; text-shadow: 2px 2px 0 #FFE66D; }
+        .nav-links { display: flex; gap: 35px; }
+        .nav-links a { text-decoration: none; color: #666; font-weight: 600; transition: all 0.3s; font-size: 1em; }
+        .nav-links a:hover { color: #FFB6C1; transform: translateY(-2px); }
+        
+        /* 首页 Banner - 元气满满 */
+        .hero { min-height: 100vh; background: linear-gradient(135deg, #FFE66D 0%, #FFB6C1 100%); display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: '☁️'; position: absolute; top: 10%; left: 10%; font-size: 4em; opacity: 0.3; animation: float 6s ease-in-out infinite; }
+        .hero::after { content: '✨'; position: absolute; bottom: 20%; right: 15%; font-size: 3em; opacity: 0.4; animation: twinkle 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes twinkle { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.2); } }
         .hero-content { position: relative; z-index: 1; max-width: 900px; padding: 0 30px; }
-        .hero h1 { font-size: 3.5em; font-weight: 200; letter-spacing: 8px; margin-bottom: 25px; text-transform: uppercase; }
-        .hero h1 span { font-weight: 600; }
-        .hero-vision { font-size: 1.4em; opacity: 0.95; letter-spacing: 4px; margin-bottom: 25px; font-weight: 400; color: rgba(255,255,255,0.95); }
-        .hero p { font-size: 1.1em; opacity: 0.7; letter-spacing: 3px; margin-bottom: 50px; font-weight: 300; }
-        .hero-btn { display: inline-block; padding: 18px 60px; background: transparent; color: white; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); font-size: 0.85em; letter-spacing: 3px; transition: all 0.4s; text-transform: uppercase; }
-        .hero-btn:hover { background: white; color: #0a0a0a; border-color: white; }
+        .hero h1 { font-family: "ZCOOL KuaiLe", cursive; font-size: 3.5em; color: white; text-shadow: 3px 3px 0 rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .hero-vision { font-size: 1.5em; color: white; background: rgba(255,255,255,0.2); padding: 15px 30px; border-radius: 50px; display: inline-block; margin-bottom: 25px; backdrop-filter: blur(10px); }
+        .hero p { font-size: 1.1em; color: rgba(255,255,255,0.9); margin-bottom: 40px; }
+        .hero-btn { display: inline-block; padding: 18px 50px; background: white; color: #FFB6C1; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.1em; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255,182,193,0.4); }
+        .hero-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 12px 35px rgba(255,182,193,0.5); }
         
         /* 通用区块 */
-        .section { padding: 150px 50px; }
-        .section-title { text-align: center; font-size: 2.2em; font-weight: 300; letter-spacing: 5px; margin-bottom: 20px; text-transform: uppercase; }
-        .section-subtitle { text-align: center; color: #999; font-size: 0.95em; letter-spacing: 2px; margin-bottom: 80px; font-weight: 300; }
+        .section { padding: 100px 30px; }
+        .section-title { text-align: center; font-family: "ZCOOL KuaiLe", cursive; font-size: 2.5em; color: #FFB6C1; margin-bottom: 15px; text-shadow: 2px 2px 0 #FFE66D; }
+        .section-subtitle { text-align: center; color: #999; font-size: 1em; margin-bottom: 60px; }
         
-        /* 关于我们 - 极简卡片 */
-        .about { background: #fafafa; }
-        .about-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 60px; }
-        .about-card { background: white; padding: 50px 40px; border: 1px solid #eaeaea; transition: all 0.4s; }
-        .about-card:hover { border-color: #0a0a0a; transform: translateY(-5px); }
-        .about-number { font-size: 3em; font-weight: 200; color: #d4d4d4; margin-bottom: 25px; line-height: 1; }
-        .about-card h3 { font-size: 1.1em; font-weight: 500; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; }
-        .about-card p { color: #888; line-height: 2; font-size: 0.95em; font-weight: 300; }
+        /* 关于我们 - 可爱卡片 */
+        .about { background: white; }
+        .about-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
+        .about-card { background: linear-gradient(135deg, #F9F9F9 0%, white 100%); padding: 40px 30px; border-radius: 25px; border: 3px solid #FFE66D; transition: all 0.4s; position: relative; overflow: hidden; }
+        .about-card::before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,230,109,0.2) 0%, transparent 70%); }
+        .about-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(255,230,109,0.3); }
+        .about-number { font-family: "ZCOOL KuaiLe", cursive; font-size: 3.5em; color: #FFB6C1; margin-bottom: 20px; text-shadow: 2px 2px 0 #FFE66D; }
+        .about-card h3 { font-size: 1.3em; color: #FFB6C1; margin-bottom: 15px; font-weight: 600; }
+        .about-card p { color: #666; line-height: 1.8; }
         
-        /* 产品展示 - 高端陈列 */
-        .products { background: white; }
-        .product-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 50px; }
-        .product-card { background: white; overflow: hidden; border: 1px solid #eaeaea; transition: all 0.4s; }
-        .product-card:hover { box-shadow: 0 30px 80px rgba(0,0,0,0.08); }
-        .product-image { width: 100%; height: 450px; object-fit: cover; background: #f5f5f5; }
-        .product-info { padding: 40px; }
-        .product-title { font-size: 1.2em; font-weight: 400; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
-        .product-desc { color: #888; line-height: 2.2; font-size: 0.9em; font-weight: 300; margin-bottom: 30px; }
-        .product-btn { display: inline-block; padding: 15px 40px; background: #0a0a0a; color: white; text-decoration: none; font-size: 0.8em; letter-spacing: 2px; transition: all 0.3s; text-transform: uppercase; border: none; }
-        .product-btn:hover { background: #333; }
+        /* 产品展示 - 趣味卡片 */
+        .products { background: linear-gradient(180deg, #F9F9F9 0%, white 100%); }
+        .product-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 40px; }
+        .product-card { background: white; border-radius: 30px; overflow: hidden; border: 3px solid #FFB6C1; transition: all 0.4s; box-shadow: 0 10px 30px rgba(255,182,193,0.2); }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(255,182,193,0.3); }
+        .product-image { width: 100%; height: 380px; object-fit: cover; background: linear-gradient(135deg, #FFF5F7 0%, #F0FFF4 100%); }
+        .product-info { padding: 30px; }
+        .product-title { font-family: "ZCOOL KuaiLe", cursive; font-size: 1.4em; color: #FFB6C1; margin-bottom: 10px; }
+        .product-tag { display: inline-block; background: #FFE66D; color: #333; padding: 5px 15px; border-radius: 20px; font-size: 0.85em; font-weight: 600; margin-bottom: 15px; }
+        .product-desc { color: #666; line-height: 1.8; margin-bottom: 25px; }
+        .product-btn { display: inline-block; padding: 14px 35px; background: linear-gradient(135deg, #FFB6C1 0%, #FFE66D 100%); color: white; text-decoration: none; border-radius: 25px; font-weight: 600; transition: all 0.3s; box-shadow: 0 5px 20px rgba(255,182,193,0.4); }
+        .product-btn:hover { transform: scale(1.05); box-shadow: 0 8px 30px rgba(255,182,193,0.5); }
         
-        /* 加工能力 - 深色高级感 */
-        .capabilities { background: #0a0a0a; color: white; }
-        .capabilities .section-title { color: white; }
-        .capabilities .section-subtitle { color: #666; }
-        .capability-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; }
-        .capability-item { text-align: center; padding: 40px 30px; border: 1px solid #222; transition: all 0.4s; }
-        .capability-item:hover { border-color: #444; background: rgba(255,255,255,0.02); }
-        .capability-number { font-size: 2.5em; font-weight: 200; color: #333; margin-bottom: 20px; line-height: 1; }
-        .capability-item h3 { font-size: 1em; font-weight: 400; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
-        .capability-item p { color: #666; font-size: 0.9em; font-weight: 300; line-height: 1.8; }
+        /* 加工能力 - 彩色区块 */
+        .capabilities { background: linear-gradient(135deg, #FFB6C1 0%, #FFE66D 100%); }
+        .capabilities .section-title { color: white; text-shadow: 3px 3px 0 rgba(0,0,0,0.1); }
+        .capabilities .section-subtitle { color: rgba(255,255,255,0.9); }
+        .capability-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .capability-item { text-align: center; padding: 35px 25px; background: rgba(255,255,255,0.2); border-radius: 25px; backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.3); transition: all 0.4s; }
+        .capability-item:hover { background: rgba(255,255,255,0.3); transform: translateY(-5px); }
+        .capability-number { font-family: "ZCOOL KuaiLe", cursive; font-size: 3em; color: white; margin-bottom: 15px; text-shadow: 2px 2px 0 rgba(0,0,0,0.1); }
+        .capability-item h3 { font-size: 1.2em; color: white; margin-bottom: 10px; font-weight: 600; }
+        .capability-item p { color: rgba(255,255,255,0.9); font-size: 0.95em; }
         
-        /* 联系我们 - 极简风格 */
-        .contact { background: #fafafa; }
-        .contact-container { max-width: 700px; margin: 0 auto; text-align: center; }
-        .contact-container p { font-size: 1em; color: #666; margin-bottom: 60px; font-weight: 300; letter-spacing: 1px; }
-        .contact-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 40px; margin-top: 50px; }
-        .contact-item { padding: 40px 30px; background: white; border: 1px solid #eaeaea; transition: all 0.4s; }
-        .contact-item:hover { border-color: #0a0a0a; }
-        .contact-item h3 { font-size: 0.85em; font-weight: 500; letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; color: #0a0a0a; }
-        .contact-item p { color: #888; font-size: 0.9em; font-weight: 300; }
+        /* 联系我们 - 温馨风格 */
+        .contact { background: white; }
+        .contact-container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .contact-container p { font-size: 1.1em; color: #666; margin-bottom: 50px; }
+        .contact-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .contact-item { padding: 35px 25px; background: linear-gradient(135deg, #FFF5F7 0%, #F0FFF4 100%); border-radius: 25px; border: 2px solid #FFE66D; transition: all 0.4s; }
+        .contact-item:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(255,230,109,0.3); }
+        .contact-icon { font-size: 3em; margin-bottom: 15px; }
+        .contact-item h3 { color: #FFB6C1; margin-bottom: 10px; font-weight: 600; }
+        .contact-item p { color: #666; }
         
-        /* 页脚 - 极简 */
-        .footer { background: #0a0a0a; color: #666; text-align: center; padding: 60px 30px; border-top: 1px solid #1a1a1a; }
-        .footer p { font-size: 0.8em; letter-spacing: 2px; font-weight: 300; text-transform: uppercase; }
+        /* 页脚 - 可爱风格 */
+        .footer { background: linear-gradient(135deg, #FFB6C1 0%, #FFE66D 100%); color: white; text-align: center; padding: 50px 30px; }
+        .footer p { font-size: 0.9em; opacity: 0.95; }
         
         /* 移动端适配 */
         @media (max-width: 768px) {
-            .nav-container { padding: 20px 25px; }
+            .nav-container { padding: 15px 20px; }
             .nav-links { display: none; }
-            .hero h1 { font-size: 2em; letter-spacing: 4px; }
-            .hero p { font-size: 0.95em; letter-spacing: 2px; }
-            .section { padding: 100px 25px; }
-            .section-title { font-size: 1.6em; letter-spacing: 3px; }
+            .hero h1 { font-size: 2.2em; }
+            .hero-vision { font-size: 1.1em; padding: 12px 20px; }
+            .section { padding: 70px 20px; }
+            .section-title { font-size: 1.8em; }
             .product-grid { grid-template-columns: 1fr; }
-            .about-grid { gap: 30px; }
+            .about-grid { gap: 25px; }
         }
     </style>
 </head>
@@ -95,7 +113,7 @@
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">宅趣 <span>ZHAIQU</span></div>
+            <div class="logo">🏠 宅趣</div>
             <div class="nav-links">
                 <a href="#home">首页</a>
                 <a href="#about">关于</a>
@@ -109,17 +127,17 @@
     <!-- 首页 Banner -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1>专业服装<span>代工</span></h1>
-            <p class="hero-vision">让家成为世界上最有趣的游乐场</p>
-            <p>十年匠心 · 精工细作 · 品质铸就信赖</p>
-            <a href="#contact" class="hero-btn">立即咨询</a>
+            <h1>宅趣 ZHAIQU</h1>
+            <p class="hero-vision">让家成为世界上最有趣的游乐场 🎠</p>
+            <p>舒适阿罗裤 · 居家好物 · 品质生活</p>
+            <a href="#products" class="hero-btn">逛逛产品 ✨</a>
         </div>
     </section>
 
     <!-- 关于我们 -->
     <section class="section about" id="about">
         <h2 class="section-title">为什么选择宅趣</h2>
-        <p class="section-subtitle">WHY CHOOSE ZHAIQU</p>
+        <p class="section-subtitle">Quality · Comfort · Fun</p>
         <div class="about-grid">
             <div class="about-card">
                 <div class="about-number">01</div>
@@ -147,14 +165,15 @@
     <!-- 产品展示 -->
     <section class="section products" id="products">
         <h2 class="section-title">产品中心</h2>
-        <p class="section-subtitle">PREMIUM PRODUCTS</p>
+        <p class="section-subtitle">Comfy & Cute Products</p>
         <div class="product-grid">
             <div class="product-card">
-                <img src="https://img.alicdn.com/imgextra/i2/2206748485001/O1CN01ZxGpQr1Y8rVqKqZ8Y_!!2206748485001.jpg" alt="男士阿罗裤" class="product-image" onerror="this.style.background='#f5f5f5'">
+                <img src="https://img.alicdn.com/imgextra/i2/2206748485001/O1CN01ZxGpQr1Y8rVqKqZ8Y_!!2206748485001.jpg" alt="男士阿罗裤" class="product-image" onerror="this.style.background='linear-gradient(135deg, #FFF5F7 0%, #F0FFF4 100%)'">
                 <div class="product-info">
+                    <span class="product-tag">🔥 人气爆款</span>
                     <h3 class="product-title">男士阿罗裤 · 平角内裤</h3>
                     <p class="product-desc">采用优质面料，舒适透气，精工裁剪，贴合人体工学设计。支持批量定制，可根据客户需求调整面料、颜色、尺码等规格。</p>
-                    <a href="#contact" class="product-btn">咨询订购</a>
+                    <a href="#contact" class="product-btn">咨询订购 💬</a>
                 </div>
             </div>
         </div>
@@ -163,7 +182,7 @@
     <!-- 加工能力 -->
     <section class="section capabilities" id="capabilities">
         <h2 class="section-title">加工能力</h2>
-        <p class="section-subtitle">PROFESSIONAL CAPABILITIES</p>
+        <p class="section-subtitle">Professional Equipment & Team</p>
         <div class="capability-grid">
             <div class="capability-item">
                 <div class="capability-number">01</div>
@@ -191,19 +210,22 @@
     <!-- 联系我们 -->
     <section class="section contact" id="contact">
         <h2 class="section-title">联系我们</h2>
-        <p class="section-subtitle">GET IN TOUCH</p>
+        <p class="section-subtitle">Let's Create Something Fun Together!</p>
         <div class="contact-container">
-            <p>欢迎咨询合作，我们期待与您共创美好未来</p>
+            <p>欢迎咨询合作，一起打造有趣又舒适的居家生活～</p>
             <div class="contact-info">
                 <div class="contact-item">
+                    <div class="contact-icon">📱</div>
                     <h3>联系电话</h3>
                     <p>请咨询获取</p>
                 </div>
                 <div class="contact-item">
+                    <div class="contact-icon">📧</div>
                     <h3>电子邮箱</h3>
                     <p>请咨询获取</p>
                 </div>
                 <div class="contact-item">
+                    <div class="contact-icon">📍</div>
                     <h3>公司地址</h3>
                     <p>深圳市</p>
                 </div>
@@ -213,7 +235,7 @@
 
     <!-- 页脚 -->
     <footer class="footer">
-        <p>© 2026 ZHAIQU · 专业服装代工服务</p>
+        <p>© 2026 宅趣 ZHAIQU · 让家成为世界上最有趣的游乐场 🏠</p>
     </footer>
 
     <script>
