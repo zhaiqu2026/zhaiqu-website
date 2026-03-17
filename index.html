@@ -22,7 +22,10 @@
         /* 导航栏 - 未来科技 */
         .navbar { position: fixed; top: 0; width: 100%; background: rgba(10,10,26,0.95); border-bottom: 2px solid var(--neon-blue); z-index: 1000; backdrop-filter: blur(10px); box-shadow: 0 0 30px rgba(0,243,255,0.3); }
         .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
-        .logo { font-size: 1.8em; font-weight: bold; background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: var(--text-glow); }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 1.6em; font-weight: bold; color: #fff; text-decoration: none; }
+        .logo-img { height: 45px; width: auto; filter: drop-shadow(0 0 10px var(--neon-blue)); transition: all 0.3s; }
+        .logo:hover .logo-img { filter: drop-shadow(0 0 20px var(--neon-purple)); transform: scale(1.05); }
+        .logo-text { background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: var(--text-glow); }
         .nav-links { display: flex; gap: 35px; }
         .nav-links a { text-decoration: none; color: #fff; font-weight: 500; transition: all 0.3s; position: relative; }
         .nav-links a:hover { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
@@ -126,7 +129,10 @@
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">🏠 宅趣 ZHAIQU</div>
+            <a href="#home" class="logo">
+                <img src="logo.png" alt="宅趣 Logo" class="logo-img">
+                <span class="logo-text">宅趣 ZHAIQU</span>
+            </a>
             <div class="nav-links">
                 <a href="#home">首页</a>
                 <a href="#about">关于</a>
