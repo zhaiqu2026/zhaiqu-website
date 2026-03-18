@@ -307,13 +307,21 @@
 
         // 产品详情弹窗
         function openProductDetail(imageSrc, productName) {
-            document.getElementById('modalImage').src = imageSrc;
+            console.log('Opening product:', imageSrc);
+            const img = document.getElementById('modalImage');
+            img.src = imageSrc;
+            img.onload = function() {
+                console.log('Image loaded:', this.src);
+            };
+            img.onerror = function() {
+                console.error('Image failed to load:', this.src);
+            };
             document.getElementById('productModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
         function closeProductDetail(event) {
-            if (event.target.id === 'productModal' || event.target.classList.contains('modal-close')) {
+            if (event.target.id === 'productModal' || event.target.classList.contains('modal-close') || event.target.tagName === 'BUTTON') {
                 document.getElementById('productModal').classList.remove('active');
                 document.body.style.overflow = '';
             }
