@@ -123,6 +123,15 @@
             .product-grid { grid-template-columns: 1fr; }
             .about-grid { gap: 25px; }
         }
+        
+        /* 产品详情弹窗 */
+        .product-modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(10,10,26,0.95); backdrop-filter: blur(10px); overflow: auto; }
+        .product-modal.active { display: block; animation: modalFadeIn 0.3s ease; }
+        @keyframes modalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal-content { position: relative; margin: 5% auto; max-width: 900px; padding: 20px; }
+        .modal-image { width: 100%; height: auto; border-radius: 20px; box-shadow: 0 0 50px rgba(0,243,255,0.3); border: 2px solid var(--neon-blue); }
+        .modal-close { position: absolute; top: -40px; right: 0; background: transparent; border: none; color: #fff; font-size: 3em; cursor: pointer; transition: all 0.3s; width: 50px; height: 50px; line-height: 1; }
+        .modal-close:hover { color: var(--neon-blue); transform: rotate(90deg); }
     </style>
 </head>
 <body>
@@ -193,7 +202,7 @@
         <h2 class="section-title">产品中心</h2>
         <p class="section-subtitle">PREMIUM PRODUCTS</p>
         <div class="product-grid">
-            <div class="product-card">
+            <div class="product-card" onclick="openProductDetail('product-arocks-1.jpg', '男士阿罗裤 · 平角内裤')" style="cursor: pointer;">
                 <img src="product-arocks-2.jpg" alt="男士阿罗裤" class="product-image" style="object-fit: contain; background: #1a1a3a;">
                 <div class="product-info">
                     <span class="product-tag">🔥 人气爆款</span>
@@ -201,9 +210,6 @@
                     <p class="product-desc">采用优质面料，舒适透气，精工裁剪，贴合人体工学设计。支持批量定制，可根据客户需求调整面料、颜色、尺码等规格。</p>
                     <a href="#contact" class="product-btn">咨询订购 💬</a>
                 </div>
-            </div>
-            <div class="product-card" style="grid-column: 1 / -1; border: none; box-shadow: none; background: transparent;">
-                <img src="product-arocks-1.jpg" alt="产品详情页" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 20px;">
             </div>
             <div class="product-card">
                 <img src="https://cbu01.alicdn.com/img/ibank/O1CN01TQx8qF1Yr8LvZKZYH_!!2206748485001-0-cib.jpg" alt="纯棉阿罗裤" class="product-image" onerror="this.style.background='linear-gradient(135deg, #1a1a3a 0%, #2a2a5a 100%)'">
@@ -271,6 +277,14 @@
         </div>
     </section>
 
+    <!-- 产品详情弹窗 -->
+    <div id="productModal" class="product-modal" onclick="closeProductDetail(event)">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeProductDetail(event)">×</button>
+            <img id="modalImage" src="" alt="产品详情" class="modal-image">
+        </div>
+    </div>
+
     <!-- 页脚 -->
     <footer class="footer">
         <p>© 2026 宅趣 ZHAIQU · 让家成为世界上最有趣的游乐场 🏠</p>
@@ -286,6 +300,28 @@
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
+
+        // 产品详情弹窗
+        function openProductDetail(imageSrc, productName) {
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('productModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProductDetail(event) {
+            if (event.target.id === 'productModal' || event.target.classList.contains('modal-close')) {
+                document.getElementById('productModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // ESC 键关闭弹窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('productModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
         });
     </script>
 </body>
